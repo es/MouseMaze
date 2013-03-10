@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+rm MainWindow.class
+rm MouseMaze.class
+rm Maze.class
+
+javac MainWindow.java
+javac MouseMaze.java
+javac Maze.java
+
+java MouseMaze
