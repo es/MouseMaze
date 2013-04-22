@@ -1,4 +1,4 @@
 MouseMaze
 =========
 
-Maze Traversing Mouse
+Maze Traversing Mouse written for Arduino
