@@ -71,38 +71,38 @@ void setup(){
   setThresholds();
   digitalWrite(greenLED, HIGH);
   while(digitalRead(button)!=HIGH){}
-  loop();
+    loop();
 }
 
 void readWhite(){
   digitalWrite(redLED, HIGH);
   while(digitalRead(button) != HIGH){}
-  for (int i = 0; i<5; i++){
-    white[i] += analogRead(i);
+    for (int i = 0; i<5; i++){
+      white[i] += analogRead(i);
+    }
+    while(digitalRead(button) == HIGH){}
+      digitalWrite(redLED, LOW);
   }
-  while(digitalRead(button) == HIGH){}
-  digitalWrite(redLED, LOW);
-}
 
-void readBlack(){
-  digitalWrite(yellowLED, HIGH);
-  while(digitalRead(button) != HIGH){}
-  for (int i = 0; i<5; i++){
-    black[i] = analogRead(i);
-  }
-  while(digitalRead(button) == HIGH){}
-  digitalWrite(yellowLED, LOW);
-}
+  void readBlack(){
+    digitalWrite(yellowLED, HIGH);
+    while(digitalRead(button) != HIGH){}
+      for (int i = 0; i<5; i++){
+        black[i] = analogRead(i);
+      }
+      while(digitalRead(button) == HIGH){}
+        digitalWrite(yellowLED, LOW);
+    }
 
-void setThresholds(){
-  for (int i = 0; i<5; i++){
-    threshold[i] = (white[i]+black[i])/2;
-  }
-}
+    void setThresholds(){
+      for (int i = 0; i<5; i++){
+        threshold[i] = (white[i]+black[i])/2;
+      }
+    }
 
-void updateLDRValues(){
-  for (int i = 0; i<5; i++){
-    if (analogRead(i)<threshold[i])
+    void updateLDRValues(){
+      for (int i = 0; i<5; i++){
+        if (analogRead(i)<threshold[i])
       ldr[i]=0; //Black
     else
       ldr[i]=1; //White
@@ -190,7 +190,7 @@ void reverseDirection () {
       halt();
       break;//Won't know if perfectly straight, but adjust functions should fix that
     }
-}
+  }
 
 }
 
@@ -207,17 +207,18 @@ boolean isFinished () {//Approach to figuring out the LDR logic for if the maze 
   if (ldr[0]&&ldr[1]&&ldr[3]&&ldr[4]&&ldr[2]){
 
     if (start_time == -1){
-      start_time = millis();//all LDRs on black, so reset the time
+      start_time = millis();//all LDRs on black and this is a first time thing, so set start_time to the current time
     }
 
     if (millis() - start_time >= stop_thresh){ //check to see how long we've been on black for and if it's been enough, we're done!
       return true;
-    }
-
   }
-  
+
+}
+else {
   start_time = -1;//LDR(s) are white, so no point in keeping track of time. Reset this variable.
-  return false;
+}
+return false;
 }
 
 
