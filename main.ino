@@ -52,7 +52,7 @@ boolean ldr [5]; //1 if over black, 0 otherwise
 const int motorAF = 6; //Motor A forward pin
 const int motorAB = 7; //Motor A backward pin
 const int motorBF = 8; //Motor B forward pin
-const int morotBB = 9; //Motor B backward pin
+const int motorBB = 9; //Motor B backward pin
 const int smallDelayValue=300; //Delay length for different movement related stuff
 
 void setup(){
@@ -145,7 +145,7 @@ void turnRight () {
   while (true) { //Now we assume WWBWW (LDR Values)
     updateLDRValues();
     if (ldr[4]&&ldr[3]&&ldr[2]&&ldr[1]) { //If all four evaluate to true, then it means WBBBB
-      halts();
+      halt();
       break;
     }
   }
@@ -182,7 +182,7 @@ void goneTooFar () {
 void reverseDirection () {
   right();
   while (true){
-    updateLDRValues ()
+    updateLDRValues ();
     if (ldr[0]&&ldr[1]&&ldr[2]&&ldr[4]&&ldr[3]) { //Means mouse s prendicular
       delay (smallDelayValue);//Let the mouse keep turning for a bit
       halt();
@@ -214,29 +214,28 @@ ldr[2]&&ldr[3]=True, Adjust left
 */
 void loop () {
   while (!isFinished()) {
-    switch (true) {
-      case ldr[4]:
-        turnRight();
-        forward();
-        delay(smallDelayValue);
-        break;
-      case ldr[0]:
-        turnLeft();
-        forward();
-        delay (smallDelayValue);
-        break;
-      case ldr[2]&&ldr[3]:
-        adjustLeft();
-        break;
-      case ldr[1]&&ldr[2]:
-        adjustRight();
-        break;
-      case !ldr[0]&&!ldr[1]&&!ldr[2]&&!ldr[4]&&!ldr[3]:
-        goneTooFar();
-        delay(smallDelayValue);
-        break;
-      default:
-        forward();
+    if (ldr[4]) {
+      turnRight();
+      forward();
+      delay(smallDelayValue);
+    }
+    else if (ldr[0]) {
+      turnLeft();
+      forward();
+      delay (smallDelayValue);
+    }
+    else if (ldr[2]&&ldr[3]) {
+      adjustLeft();
+    }
+    else if (ldr[1]&&ldr[2]) {
+      adjustRight();
+    }
+    else if (!ldr[0]&&!ldr[1]&&!ldr[2]&&!ldr[4]&&!ldr[3]) {
+      goneTooFar();
+      delay(smallDelayValue);
+    }
+    else {
+      forward();
     }
   }
 }
