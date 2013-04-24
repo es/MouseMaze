@@ -54,7 +54,7 @@ const int motorAB = 7; //Motor A backward pin
 const int motorBF = 8; //Motor B forward pin
 const int motorBB = 9; //Motor B backward pin
 const int smallDelayValue=300; //Delay length for different movement related stuff
-unsigned long start_time = -1; //start time when all ldrs are black.
+unsigned long start_time = -1; //start time when all ldrs are black. Unsigned since we're dealing with time.
 const int stop_thresh = 3000 //If time passed reaches this value, maze solved.
 
 void setup(){
