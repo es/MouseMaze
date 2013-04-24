@@ -6,10 +6,10 @@ Digital:
 3 - Yellow LED
 4 - Green LED
 5 - Calibration button
-6 - Motor 1A
-7 - Motor 1B
-8 - Motor 2A
-9 - Motor 2B
+6 - Motor AF - Left motor forward
+7 - Motor AB - left motor backward
+8 - Motor BF - right motor forward
+9 - Motor BB - right motor backward
 10 - Bright LED? Gets turned off if Mouse is using Ultrasonic instead
 11 - Empty
 12 - Empty
@@ -21,11 +21,16 @@ A2 - LDR
 A3 - LDR
 A4 - LDR
 A5 - Empty
+*/
 
 int redLED = 2; //LED pin indicating: Press button to set white values
 int yellowLED = 3; //LED pin indicating: Press button to set black values
 int greenLED = 4; //LED pin indicating: Press button to go
 int button = 5; //Digital input for calibration button
+int motorAF = 6; //Motor A forward pin
+int motorAB = 7; //Motor A backward pin
+int motorBF = 8; //Motor B forward pin
+int morotBB = 9; //Motor B backward pin
 int[5] white; //Value saved on white button press
 int[5] black; //Value saved on black button press
 int[5] threshold; //Average between white and black.
@@ -36,6 +41,10 @@ void setup(){
   pinMode(yellowLED, OUTPUT);
   pinMode(greenLED, OUTPUT);
   pinMode(button, INPUT);
+  pinMode(motorAF, OUTPUT);
+  pinMode(motorAB, OUTPUT);
+  pinMode(motorBF, OUTPUT);
+  pinMode(motorBB, OUTPUT);
   readWhite();
   readBlack();
   setThresholds();
@@ -74,4 +83,29 @@ void setLDRValues(){
     else
       ldr[i]=1;
   }
+}
+
+void halt(){
+  digitalWrite(motorAF, 0);
+  digitalWrite(motorAB, 0);
+  digitalWrite(motorBF, 0);
+  digitalWrite(motorBB, 0);
+}
+
+void forward(){
+  halt();
+  digitalWrite(motorAF, 1);
+  digitalWrite(motorBF, 1);
+}
+
+void right(){
+  halt();
+  digitalWrite(motorAF, 1);
+  digitalWrite(motorBB, 1);
+}
+
+void left(){
+  halt();
+  digitalWrite(motorAB, 1);
+  digitalWrite(motorBF, 1);
 }
