@@ -54,6 +54,8 @@ const int motorAB = 7; //Motor A backward pin
 const int motorBF = 8; //Motor B forward pin
 const int motorBB = 9; //Motor B backward pin
 const int smallDelayValue=300; //Delay length for different movement related stuff
+unsigned long start_time = -1; //start time when all ldrs are black.
+const int stop_thresh = 3000 //If time passed reaches this value, maze solved.
 
 void setup(){
   pinMode(redLED, OUTPUT);
@@ -200,8 +202,22 @@ void adjustLeft () {
 
 }
 
-boolean isFinished () {//This overlaps with T intersection? Add Random LDR in special location that never gets thrown?
-  return ldr[0]&&ldr[1]&&ldr[3]&&ldr[4]&&ldr[2];
+boolean isFinished () {//Approach to figuring out the LDR logic for if the maze has been completed or not.
+
+  if (ldr[0]&&ldr[1]&&ldr[3]&&ldr[4]&&ldr[2]){
+
+    if (start_time == -1){
+      start_time = millis();//all LDRs on black, so reset the time
+    }
+
+    if (millis() - start_time >= stop_thresh){ //check to see how long we've been on black for and if it's been enough, we're done!
+      return true;
+    }
+
+  }
+  
+  start_time = -1;//LDR(s) are white, so no point in keeping track of time. Reset this variable.
+  return false;
 }
 
 
