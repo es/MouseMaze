@@ -7,11 +7,11 @@ Digital:
 4 - Green LED
 5 - Calibration button
 6 - Motor AF - Left motor forward
-7 - Motor AB - left motor backward
-8 - Motor BF - right motor forward
-9 - Motor BB - right motor backward
-10 - Bright LED? Gets turned off if Mouse is using Ultrasonic instead
-11 - Empty
+7 - Bright LED? Gets turned off if Mouse is using Ultrasonic instead
+8 - Empty
+9 - Motor AB - left motor backward
+10 - Motor BF - right motor forward
+11 - Motor BB - right motor backward
 12 - Empty
 13 - Empty
 Anlog:
@@ -39,6 +39,7 @@ W-Wheel
 +*********+
 +*********+
 +++++++++++
+PWM Pins: 3, 5, 6, 9, 10, and 11
 */
 
 const int redLED = 2; //LED pin indicating: Press button to set white values
@@ -50,9 +51,9 @@ int black [5]; //Value saved on black button press
 int threshold [5]; //Average between white and black.
 boolean ldr [5]; //1 if over black, 0 otherwise
 const int motorAF = 6; //Motor A forward pin
-const int motorAB = 7; //Motor A backward pin
-const int motorBF = 8; //Motor B forward pin
-const int motorBB = 9; //Motor B backward pin
+const int motorAB = 9; //Motor A backward pin
+const int motorBF = 10; //Motor B forward pin
+const int motorBB = 11; //Motor B backward pin
 const int smallDelayValue=300; //Delay length for different movement related stuff
 unsigned long start_time = -1; //start time when all ldrs are black. Unsigned since we're dealing with time.
 const int stop_thresh = 3000 //If time passed reaches this value, maze solved.
@@ -110,34 +111,34 @@ void readWhite(){
 }
 
 void halt(){
-  digitalWrite(motorAF, 0);
-  digitalWrite(motorAB, 0);
-  digitalWrite(motorBF, 0);
-  digitalWrite(motorBB, 0);
+  analogWrite(motorAF, 0);
+  analogWrite(motorAB, 0);
+  analogWrite(motorBF, 0);
+  analogWrite(motorBB, 0);
 }
 
 void forward(){
   halt();
-  digitalWrite(motorAF, 1023);
-  digitalWrite(motorBF, 1023);
+  analogWrite(motorAF, 1023);
+  analogWrite(motorBF, 1023);
 }
 
 void backward() {
   halt();
-  digitalWrite(motorAB, 1023);
-  digitalWrite(motorBB, 1023);
+  analogWrite(motorAB, 1023);
+  analogWrite(motorBB, 1023);
 }
 
 void right(){
   halt();
-  digitalWrite(motorAF, 1023);
-  digitalWrite(motorBB, 1023);
+  analogWrite(motorAF, 1023);
+  analogWrite(motorBB, 1023);
 }
 
 void left(){
   halt();
-  digitalWrite(motorAB, 1023);
-  digitalWrite(motorBF, 1023);
+  analogWrite(motorAB, 1023);
+  analogWrite(motorBF, 1023);
 }
 
 //Assuming we started with WBBBB (LDR Values) when called
@@ -195,13 +196,13 @@ void reverseDirection () {
 }
 
 void adjustRight () {
-	digitalWrite(motorAF, 1023);
-  digitalWrite(motorBF, 723);
+	analogWrite(motorAF, 1023);
+  analogWrite(motorBF, 723);
 }
 
 void adjustLeft () {
-  digitalWrite(motorAF, 723);
-  digitalWrite(motorBF, 1023);
+  analogWrite(motorAF, 723);
+  analogWrite(motorBF, 1023);
 }
 
 boolean isFinished () {//Approach to figuring out the LDR logic for if the maze has been completed or not.
