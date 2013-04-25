@@ -62,10 +62,6 @@ void setup(){
   pinMode(yellowLED, OUTPUT);
   pinMode(greenLED, OUTPUT);
   pinMode(button, INPUT);
-  pinMode(motorAF, OUTPUT);
-  pinMode(motorAB, OUTPUT);
-  pinMode(motorBF, OUTPUT);
-  pinMode(motorBB, OUTPUT);
   digitalWrite(redLED, HIGH);
   while(digitalRead(button)!=HIGH){} //Position the LDRs over white and hit button
   readWhite();
@@ -115,34 +111,34 @@ void updateLDRValues(){
 }
 
 void halt(){
-  digitalWrite(motorAF, 0);
-  digitalWrite(motorAB, 0);
-  digitalWrite(motorBF, 0);
-  digitalWrite(motorBB, 0);
+  analogWrite(motorAF, 0);
+  analogWrite(motorAB, 0);
+  analogWrite(motorBF, 0);
+  analogWrite(motorBB, 0);
 }
 
 void forward(){
   halt();
-  digitalWrite(motorAF, 1);
-  digitalWrite(motorBF, 1);
+  analogWrite(motorAF, 1023);
+  analogWrite(motorBF, 1023);
 }
 
 void backward() {
   halt();
-  digitalWrite(motorAB, 1);
-  digitalWrite(motorBB, 1);
+  analogWrite(motorAB, 1023);
+  analogWrite(motorBB, 1023);
 }
 
 void right(){
   halt();
-  digitalWrite(motorAF, 1);
-  digitalWrite(motorBB, 1);
+  analogWrite(motorAF, 1023);
+  analogWrite(motorBB, 1023);
 }
 
 void left(){
   halt();
-  digitalWrite(motorAB, 1);
-  digitalWrite(motorBF, 1);
+  analogWrite(motorAB, 1023);
+  analogWrite(motorBF, 1023);
 }
 
 //Turn right until middle LDR finds black.
