@@ -173,11 +173,13 @@ void turnLeft () {
 
 
 void adjustRight () {
-
+  analogWrite(motorAF, 1023);
+  analogWrite(motorBF, 723);
 }
 
 void adjustLeft () {
-
+  analogWrite(motorAF, 723);
+  analogWrite(motorBF, 1023);
 }
 
 //The mouse has been notified that it has hit an intersection. Identify and act upon which type it is.
