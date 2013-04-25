@@ -33,7 +33,7 @@ W-Wheel
 +*********+
 +*********+
 +0**123**4+
-+WW*****WW+
++AW*****WB+
 +*********+
 +*********+
 +*********+
@@ -118,26 +118,26 @@ void halt(){
 
 void forward(){
   halt();
-  digitalWrite(motorAF, 1);
-  digitalWrite(motorBF, 1);
+  digitalWrite(motorAF, 1023);
+  digitalWrite(motorBF, 1023);
 }
 
 void backward() {
   halt();
-  digitalWrite(motorAB, 1);
-  digitalWrite(motorBB, 1);
+  digitalWrite(motorAB, 1023);
+  digitalWrite(motorBB, 1023);
 }
 
 void right(){
   halt();
-  digitalWrite(motorAF, 1);
-  digitalWrite(motorBB, 1);
+  digitalWrite(motorAF, 1023);
+  digitalWrite(motorBB, 1023);
 }
 
 void left(){
   halt();
-  digitalWrite(motorAB, 1);
-  digitalWrite(motorBF, 1);
+  digitalWrite(motorAB, 1023);
+  digitalWrite(motorBF, 1023);
 }
 
 //Assuming we started with WBBBB (LDR Values) when called
@@ -195,11 +195,13 @@ void reverseDirection () {
 }
 
 void adjustRight () {
-
+	digitalWrite(motorAF, 1023);
+  digitalWrite(motorBF, 723);
 }
 
 void adjustLeft () {
-
+  digitalWrite(motorAF, 723);
+  digitalWrite(motorBF, 1023);
 }
 
 boolean isFinished () {//Approach to figuring out the LDR logic for if the maze has been completed or not.
