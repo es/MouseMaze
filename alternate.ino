@@ -190,7 +190,7 @@ void identifyIntersection(){
   updateLDRValues();
   boolean a[3] = {ldr[0], ldr[1]|ldr[2]|ldr[3], ldr[4]}; //After intersection  
   if (b[0]&&b[1]&&b[2]){ //T, Cross, or End        
-    if (!(b[0] || b[2])) //T or Cross
+    if (!(a[0] || a[2])) //T or Cross
       turnRight();
     else
       isFinished = true;
