@@ -214,9 +214,9 @@ void detectTurn(){
 //Detect a requirement to adjust direction
 void detectAdjust(){
   updateLDRValues();
-  if (ldr[1] && ldr[2] && !ldr[3])
+  if (ldr[1] && !(ldr[2] && ldr[3]))
    adjustRight();
-  else if (!ldr[1] && ldr[2] && ldr[3])
+  else if (!(ldr[1] && ldr[2]) && ldr[3])
    adjustLeft();
   else
     forward();
