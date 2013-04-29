@@ -8,73 +8,6 @@ public class Simulator {
 	int mouseDirection;//0=Up, 1=Right, 2=Down, 3=Left
 	int stepCounter;
 
-	public void alwaysRightLogic () throws Exception{
-		while (!isFinished()) {
-			if (rightOpen()) {
-				turnRight();
-				goForward();
-			}	
-			else if (!forwardOpen())
-				turnLeft();
-			else
-				goForward();
-			//printMaze();
-		}
-	}
-
-	public void randomLogic () throws Exception{
-		double r;
-		while (!isFinished()) {
-			if (rightOpen()&&forwardOpen()&&leftOpen()) {
-				r=Math.random();
-				if (r<0.3)
-					turnLeft();
-				else {
-					if (r<0.6) 
-						turnRight();
-				}
-				goForward();
-			}	
-			else if (forwardOpen()&&leftOpen()) {
-				r=Math.random();
-				if (r<0.5)
-					turnLeft();
-				goForward();
-			}
-			else if (rightOpen()&&forwardOpen()) {
-				r=Math.random();
-				if (r<0.5)
-					turnRight();
-				goForward();
-			}
-			else if (rightOpen()&&leftOpen()) {
-				r=Math.random();
-				if (r<0.5)
-					turnRight();
-				else
-					turnLeft();
-				goForward();
-			}
-			else if (leftOpen()) {
-				turnLeft();
-				goForward();
-			}
-			else if (rightOpen()) {
-				turnRight();
-				goForward();
-			}
-			else if (forwardOpen()) {
-				goForward();
-			}
-			else { //Dead End
-				turnRight();
-				turnRight();
-				goForward();
-			}
-			//printMaze();
-		}
-	}
-
 	public void loadMaze (File document) throws Exception {
 		try {
 			BufferedReader in=new BufferedReader (new FileReader(document.toString()));
@@ -99,48 +32,6 @@ public class Simulator {
 		}
 		if (mouseX==-1||mouseY==-1)
 			throw new Exception ();
-	}
-
-	public void goForward () throws Exception{
-		stepCounter++;
-		if (mouseDirection==0) { //up
-			if (maze[mouseX][mouseY-1]!=1)
-				mouseY--;
-			else
-				throw new Exception ();
-		}
-		else if (mouseDirection==1) {//right
-			if (maze[mouseX+1][mouseY]!=1)
-				mouseX++;
-			else
-				throw new Exception ();
-		}
-		else if (mouseDirection==2) {//down
-			if (maze[mouseX][mouseY+1]!=1)
-				mouseY++;
-			else
-				throw new Exception ();
-		}
-		else {//left
-			if (maze[mouseX-1][mouseY]!=1)
-				mouseX--;
-			else
-				throw new Exception ();
-		}
-	}
-
-	public void turnRight () {
-		if (mouseDirection==3)
-			mouseDirection=0;
-		else
-			mouseDirection++;
-	}
-
-	public void turnLeft () {
-		if (mouseDirection==0)
-			mouseDirection=3;
-		else
-			mouseDirection--;
 	}
 
 	public boolean forwardOpen () {
@@ -239,8 +130,8 @@ public class Simulator {
 			totalStepsCountRandom+=stepCounter;
 			System.out.println ("Steps Taken Counter using random logic is: "+stepCounter);	
 		}
-		System.out.println ("Average amount of steps to solve a maze with always right reasoning was: "+totalStepsCountRight/NUM_TEST_MAZES);
-		System.out.println ("Average amount of steps to solve a maze with random reasoning was: "+totalStepsCountRandom/NUM_TEST_MAZES);
+		System.out.println ("Average amount of steps to solve a maze with always right reasoning was: "+(totalStepsCountRight+0.0)/NUM_TEST_MAZES);
+		System.out.println ("Average amount of steps to solve a maze with random reasoning was: "+(totalStepsCountRandom+0.0)/NUM_TEST_MAZES);
 	}
 
 	public static void main (String[] args) throws Exception{
