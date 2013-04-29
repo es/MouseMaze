@@ -1,9 +1,13 @@
 
 public class RandomMouse extends Mouse {
+	public RandomMouse (int mouseX, int mouseY, int mouseDirection, Simulator sim) {
+		super (int mouseX, int mouseY, int mouseDirection, Simulator sim);
+	}
+
 	public void Logic () {
 		double r;
-		while (!isFinished()) {
-			if (rightOpen()&&forwardOpen()&&leftOpen()) {
+		while (!sim.isFinished()) {
+			if (sim.rightOpen(mouseX, mouseY, mouseDirection)&&sim.forwardOpen(mouseX, mouseY, mouseDirection)&&sim.leftOpen(mouseX, mouseY, mouseDirection)) {
 				r=Math.random();
 				if (r<0.3)
 					turnLeft();
@@ -13,19 +17,19 @@ public class RandomMouse extends Mouse {
 				}
 				goForward();
 			}	
-			else if (forwardOpen()&&leftOpen()) {
+			else if (sim.forwardOpen(mouseX, mouseY, mouseDirection)&&sim.leftOpen(mouseX, mouseY, mouseDirection)) {
 				r=Math.random();
 				if (r<0.5)
 					turnLeft();
 				goForward();
 			}
-			else if (rightOpen()&&forwardOpen()) {
+			else if (sim.rightOpen(mouseX, mouseY, mouseDirection)&&sim.forwardOpen(mouseX, mouseY, mouseDirection)) {
 				r=Math.random();
 				if (r<0.5)
 					turnRight();
 				goForward();
 			}
-			else if (rightOpen()&&leftOpen()) {
+			else if (sim.rightOpen(mouseX, mouseY, mouseDirection)&&sim.leftOpen(mouseX, mouseY, mouseDirection)) {
 				r=Math.random();
 				if (r<0.5)
 					turnRight();
@@ -33,15 +37,15 @@ public class RandomMouse extends Mouse {
 					turnLeft();
 				goForward();
 			}
-			else if (leftOpen()) {
+			else if (sim.leftOpen(mouseX, mouseY, mouseDirection)) {
 				turnLeft();
 				goForward();
 			}
-			else if (rightOpen()) {
+			else if (sim.rightOpen(mouseX, mouseY, mouseDirection)) {
 				turnRight();
 				goForward();
 			}
-			else if (forwardOpen()) {
+			else if (sim.forwardOpen(mouseX, mouseY, mouseDirection)) {
 				goForward();
 			}
 			else { //Dead End

@@ -1,31 +1,29 @@
 
-public class Mouse {
+public abstract class Mouse {
+		int mouseX;
+		int mouseY;
+		int mouseDirection;//0=Up, 1=Right, 2=Down, 3=Left
+		Simulator sim;
+
+		public Mouse (int mouseX, int mouseY, int mouseDirection, Simulator sim) {
+			this.sim=sim;
+			this.mouseX=mouseX;
+			this.mouseY=mouseY;
+			this.mouseDirection=mouseDirection;
+		}
+		
+		abstract void logic ();
+
 		public void goForward () throws Exception{
-		stepCounter++;
-		if (mouseDirection==0) { //up
-			if (maze[mouseX][mouseY-1]!=1)
-				mouseY--;
-			else
-				throw new Exception ();
-		}
-		else if (mouseDirection==1) {//right
-			if (maze[mouseX+1][mouseY]!=1)
-				mouseX++;
-			else
-				throw new Exception ();
-		}
-		else if (mouseDirection==2) {//down
-			if (maze[mouseX][mouseY+1]!=1)
-				mouseY++;
-			else
-				throw new Exception ();
-		}
-		else {//left
-			if (maze[mouseX-1][mouseY]!=1)
-				mouseX--;
-			else
-				throw new Exception ();
-		}
+		if (mouseDirection==0) //up
+			mouseY--;
+		else if (mouseDirection==1) //right
+			mouseX++;
+		else if (mouseDirection==2) //down
+			mouseY++;
+		else //left
+			mouseX--;
+		sim.move(mouseX,mouseY);
 	}
 
 	public void turnRight () {
@@ -41,4 +39,6 @@ public class Mouse {
 		else
 			mouseDirection--;
 	} 
+
+	abstract String toString ();
 }

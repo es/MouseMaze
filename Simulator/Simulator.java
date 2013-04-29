@@ -3,10 +3,15 @@ import java.io.*;
 
 public class Simulator {
 	int maze[][]=new int [10][10];//0=open, 1=closed, 2=start, 3=finished
-	int mouseX;
-	int mouseY;
-	int mouseDirection;//0=Up, 1=Right, 2=Down, 3=Left
 	int stepCounter;
+	List<Mouse> mouseList=new ArrayList<Mouse> ();
+
+	public void move (int x, int y) throws Exception {
+		if (maze[x][y]!=1)
+			stepCounter++;
+		else
+			throw new Exception ();
+	}
 
 	public void loadMaze (File document) throws Exception {
 		try {
@@ -21,20 +26,21 @@ public class Simulator {
 		catch (IOException woops) {
 			woops.printStackTrace (System.out);
 		}
+		int startCoordinates []=new int [2];
 		HigherLoop: for (int y=0;y<10;y++) {
 			for (int x=0;x<10;x++) {
 				if (maze[x][y]==2) {
-					mouseX=x;
-					mouseY=y;
+					startCoordinates[0]=x;
+					startCoordinates[1]=y;
 					break HigherLoop;
 				}
 			}
 		}
-		if (mouseX==-1||mouseY==-1)
+		if (startCoordinates[0]==-1||startCoordinates[1]==-1)
 			throw new Exception ();
 	}
 
-	public boolean forwardOpen () {
+	public boolean forwardOpen (int mouseX, int mouseY, int mouseDirection) {
 		if (mouseDirection==0)//up
 			return 1!=maze[mouseX][mouseY-1]&&maze[mouseX][mouseY-1]!=2;
 		else if (mouseDirection==1)//right
@@ -45,7 +51,7 @@ public class Simulator {
 			return 1!=maze[mouseX-1][mouseY]&&maze[mouseX-1][mouseY]!=2;
 	}
 
-	public boolean backwardOpen () {
+	public boolean backwardOpen (int mouseX, int mouseY, int mouseDirection) {
 		if (mouseDirection==0)//up
 			return 1!=maze[mouseX][mouseY+1]&&maze[mouseX][mouseY+1]!=2;
 		else if (mouseDirection==1)//right
@@ -56,7 +62,7 @@ public class Simulator {
 			return 1!=maze[mouseX+1][mouseY]&&maze[mouseX+1][mouseY]!=2;
 	}
 
-	public boolean leftOpen () {
+	public boolean leftOpen (int mouseX, int mouseY, int mouseDirection) {
 		if (mouseDirection==0)//up
 			return 1!=maze[mouseX-1][mouseY]&&maze[mouseX-1][mouseY]!=2;
 		else if (mouseDirection==1)//right
@@ -67,7 +73,7 @@ public class Simulator {
 			return 1!=maze[mouseX][mouseY+1]&&maze[mouseX][mouseY+1]!=2;
 	}
 
-	public boolean rightOpen () {
+	public boolean rightOpen (int mouseX, int mouseY, int mouseDirection) {
 		if (mouseDirection==0)//up
 			return 1!=maze[mouseX+1][mouseY]&&maze[mouseX+1][mouseY]!=2;
 		else if (mouseDirection==1)//right
@@ -78,18 +84,18 @@ public class Simulator {
 			return 1!=maze[mouseX][mouseY-1]&&maze[mouseX][mouseY-1]!=2;
 	}
 
-	public boolean isFinished () {
+	public boolean isFinished (int mouseX, int mouseY) {
 		return maze[mouseX][mouseY]==3;
 	}
 
 	public void resetMouse () {
 		stepCounter=0;
-		mouseDirection=0;
-		mouseX=-1;
-		mouseY=-1;
+		//mouseDirection=0;
+		//mouseX=-1;
+		//mouseY=-1;
 	}
 
-	public void printMaze () {
+	/*public void printMaze () {
 		System.out.print ("Direction: ");
 		if (mouseDirection==0)
 			System.out.println ("up");
@@ -110,9 +116,13 @@ public class Simulator {
 			System.out.println();
 		}
 		System.out.println("\n");
-	}
+	}*/
 
 	public Simulator  () throws Exception{
+	
+	}
+
+	public void simulate () {
 		double totalStepsCountRandom=0, averageStepsCount=0,totalStepsCountRight=0;
 		final int NUM_TEST_MAZES=5;
 		System.out.println ("\nBegining testing with always right logic");
@@ -132,9 +142,18 @@ public class Simulator {
 		}
 		System.out.println ("Average amount of steps to solve a maze with always right reasoning was: "+(totalStepsCountRight+0.0)/NUM_TEST_MAZES);
 		System.out.println ("Average amount of steps to solve a maze with random reasoning was: "+(totalStepsCountRandom+0.0)/NUM_TEST_MAZES);
+	
+	}
+
+	public void addMouse (Mouse newMouse) {
+		mouseList.add(newMouse);
 	}
 
 	public static void main (String[] args) throws Exception{
-		new Simulator ();
+		Simulator sim=new Simulator ();
+		sim.addMouse(new RandomMouse());
+		sim.addMouse(new AlwaysRightMouse());
+		sim.simulate();
+		sim.printResults();
 	}
 }
