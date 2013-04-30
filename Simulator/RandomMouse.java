@@ -1,4 +1,9 @@
 public class RandomMouse extends Mouse {
+  
+  public RandomMouse (Simulator sim)
+  {
+    super(sim);
+  }
   public RandomMouse (int xCoord, int yCoord, int direction, Simulator sim) {
     super (xCoord, yCoord,  direction, sim);
   }
@@ -55,5 +60,11 @@ public class RandomMouse extends Mouse {
       }
       //printMaze();
     }
+  }
+  
+  @Override
+  public int getLogicType ()
+  {
+    return Mouse.RANDOM_LOGIC;
   }
 }
