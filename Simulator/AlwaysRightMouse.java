@@ -1,20 +1,22 @@
+public class AlwaysRightMouse extends Mouse {
+  
+ public AlwaysRightMouse (int mouseX, int mouseY, int mouseDirection, Simulator sim) {
+    super(mouseX, mouseY, mouseDirection,sim);
+ }
 
-public AlwaysRightMouse extends Mouse {
-	public AlwaysRightMouse (int mouseX, int mouseY, int mouseDirection, Simulator sim) {
-		super(int mouseX, int mouseY, int mouseDirection, Simulator sim);
-	}
-
-	public void logic () {
-		while (!isFinished()) {
-			if (rightOpen()) {
-				turnRight();
-				goForward();
-			}	
-			else if (!forwardOpen())
-				turnLeft();
-			else
-				goForward();
-			//printMaze();
-		}
-	}
+ @Override
+ public void logic ()  {
+  while (!getSim().isFinished(getX(), getY())) {
+   if (getSim().rightOpen(getX(), getY(), getDirection())) {
+    turnRight();
+    goForward();
+   } 
+   else if (!getSim().forwardOpen(getX(), getY(), getDirection()))
+    turnLeft();
+   else
+    goForward();
+   //printMaze();
+  }
+ }
+ 
 }

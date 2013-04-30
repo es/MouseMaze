@@ -1,44 +1,72 @@
 
 public abstract class Mouse {
-		int mouseX;
-		int mouseY;
-		int mouseDirection;//0=Up, 1=Right, 2=Down, 3=Left
-		Simulator sim;
-
-		public Mouse (int mouseX, int mouseY, int mouseDirection, Simulator sim) {
-			this.sim=sim;
-			this.mouseX=mouseX;
-			this.mouseY=mouseY;
-			this.mouseDirection=mouseDirection;
-		}
-		
-		abstract void logic ();
-
-		public void goForward () throws Exception{
-		if (mouseDirection==0) //up
-			mouseY--;
-		else if (mouseDirection==1) //right
-			mouseX++;
-		else if (mouseDirection==2) //down
-			mouseY++;
-		else //left
-			mouseX--;
-		sim.move(mouseX,mouseY);
-	}
-
-	public void turnRight () {
-		if (mouseDirection==3)
-			mouseDirection=0;
-		else
-			mouseDirection++;
-	}
-
-	public void turnLeft () {
-		if (mouseDirection==0)
-			mouseDirection=3;
-		else
-			mouseDirection--;
-	} 
-
-	abstract String toString ();
+  private int xCoord;
+  private int yCoord;
+  private int direction;//0=Up, 1=Right, 2=Down, 3=Left
+  private Simulator sim;
+  
+  public Mouse (int xCoord, int yCoord, int direction, Simulator sim) {
+    this.xCoord=xCoord;
+    this.yCoord=yCoord;
+    this.direction=direction;
+    this.sim=sim;
+  }
+  
+  public int getX()
+  {
+    return xCoord;
+  }
+  
+  public int getY()
+  {
+    return yCoord;
+  }
+  
+  public int getDirection()
+  {
+    return direction;
+  }
+  
+  public Simulator getSim()
+  {
+    return sim;
+  }
+  
+  abstract void logic ();
+  
+  public void goForward (){
+    if (direction==0) //up
+      yCoord--;
+    else if (direction==1) //right
+      xCoord++;
+    else if (direction==2) //down
+      yCoord++;
+    else //left
+      xCoord--;
+    try{
+      sim.move(xCoord,yCoord);
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+  }
+  
+  public void turnRight () {
+    if (direction==3)
+      direction=0;
+    else
+      direction++;
+  }
+  
+  public void turnLeft () {
+    if (direction==0)
+      direction=3;
+    else
+      direction--;
+  } 
+  
+  public String toString (){
+    return String.format ("X-coord: %d\nY-coord: %d\nDirection: %d",xCoord,yCoord,direction);
+  }
 }
