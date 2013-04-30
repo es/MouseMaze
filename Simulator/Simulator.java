@@ -1,7 +1,6 @@
 import java.util.*;
 import java.io.*;
 
-//WIP
 public class Simulator {
   private int maze[][]=new int [10][10];//0=open, 1=closed, 2=start, 3=finished
   private int stepCounter;
@@ -12,11 +11,11 @@ public class Simulator {
   
   private int [] stepCounters = {0,0};
   
-  public void move (int x, int y) throws Exception {
+  public void move (int x, int y){
     if (maze[x][y]!=1)
       stepCounter++;
     else
-      throw new Exception ("On a 1 value!");
+      throw new RuntimeException ("On a 1 value!");
   }
   
   public void loadMaze (File document) throws Exception {
@@ -58,56 +57,56 @@ public class Simulator {
       throw new RuntimeException ("Coordinates are -1");
   }
   
-  public boolean forwardOpen (int mouseX, int mouseY, int mouseDirection) {
-    if (mouseDirection==Mouse.DIRECTION_UP)//up
-      return 1!=maze[mouseX][mouseY-1]&&maze[mouseX][mouseY-1]!=2;
-    else if (mouseDirection==Mouse.DIRECTION_RIGHT)//right
-      return 1!=maze[mouseX+1][mouseY]&&maze[mouseX+1][mouseY]!=2;
-    else if (mouseDirection==Mouse.DIRECTION_DOWN)//down
-      return 1!=maze[mouseX][mouseY+1]&&maze[mouseX][mouseY+1]!=2;
+  public boolean forwardOpen (Mouse m) {
+    if (m.getDirection()==Mouse.DIRECTION_UP)//up
+      return 1!=maze[m.getX()][m.getY()-1]&&maze[m.getX()][m.getY()-1]!=2;
+    else if (m.getDirection()==Mouse.DIRECTION_RIGHT)//right
+      return 1!=maze[m.getX()+1][m.getY()]&&maze[m.getX()+1][m.getY()]!=2;
+    else if (m.getDirection()==Mouse.DIRECTION_DOWN)//down
+      return 1!=maze[m.getX()][m.getY()+1]&&maze[m.getX()][m.getY()+1]!=2;
     else//left
-      return 1!=maze[mouseX-1][mouseY]&&maze[mouseX-1][mouseY]!=2;
+      return 1!=maze[m.getX()-1][m.getY()]&&maze[m.getX()-1][m.getY()]!=2;
   }
   
-  public boolean backwardOpen (int mouseX, int mouseY, int mouseDirection) {
-    if (mouseDirection==Mouse.DIRECTION_UP)//up
-      return 1!=maze[mouseX][mouseY+1]&&maze[mouseX][mouseY+1]!=2;
-    else if (mouseDirection==Mouse.DIRECTION_RIGHT)//right
-      return 1!=maze[mouseX-1][mouseY]&&maze[mouseX-1][mouseY]!=2;
-    else if (mouseDirection==Mouse.DIRECTION_DOWN)//down
-      return 1!=maze[mouseX][mouseY-1]&&maze[mouseX][mouseY-1]!=2;
+  public boolean backwardOpen (Mouse m) {
+    if (m.getDirection()==Mouse.DIRECTION_UP)//up
+      return 1!=maze[m.getX()][m.getY()+1]&&maze[m.getX()][m.getY()+1]!=2;
+    else if (m.getDirection()==Mouse.DIRECTION_RIGHT)//right
+      return 1!=maze[m.getX()-1][m.getY()]&&maze[m.getX()-1][m.getY()]!=2;
+    else if (m.getDirection()==Mouse.DIRECTION_DOWN)//down
+      return 1!=maze[m.getX()][m.getY()-1]&&maze[m.getX()][m.getY()-1]!=2;
     else//left
-      return 1!=maze[mouseX+1][mouseY]&&maze[mouseX+1][mouseY]!=2;
+      return 1!=maze[m.getX()+1][m.getY()]&&maze[m.getX()+1][m.getY()]!=2;
   }
   
-  public boolean leftOpen (int mouseX, int mouseY, int mouseDirection) {
-    if (mouseDirection==Mouse.DIRECTION_UP)//up
-      return 1!=maze[mouseX-1][mouseY]&&maze[mouseX-1][mouseY]!=2;
-    else if (mouseDirection==Mouse.DIRECTION_RIGHT)//right
-      return 1!=maze[mouseX][mouseY-1]&&maze[mouseX][mouseY-1]!=2;
-    else if (mouseDirection==Mouse.DIRECTION_DOWN)//down
-      return 1!=maze[mouseX+1][mouseY]&&maze[mouseX+1][mouseY]!=2;
+  public boolean leftOpen (Mouse m) {
+    if (m.getDirection()==Mouse.DIRECTION_UP)//up
+      return 1!=maze[m.getX()-1][m.getY()]&&maze[m.getX()-1][m.getY()]!=2;
+    else if (m.getDirection()==Mouse.DIRECTION_RIGHT)//right
+      return 1!=maze[m.getX()][m.getY()-1]&&maze[m.getX()][m.getY()-1]!=2;
+    else if (m.getDirection()==Mouse.DIRECTION_DOWN)//down
+      return 1!=maze[m.getX()+1][m.getY()]&&maze[m.getX()+1][m.getY()]!=2;
     else//left
-      return 1!=maze[mouseX][mouseY+1]&&maze[mouseX][mouseY+1]!=2;
+      return 1!=maze[m.getX()][m.getY()+1]&&maze[m.getX()][m.getY()+1]!=2;
   }
   
-  public boolean rightOpen (int mouseX, int mouseY, int mouseDirection) {
-    if (mouseDirection==Mouse.DIRECTION_UP)//up
-      return 1!=maze[mouseX+1][mouseY]&&maze[mouseX+1][mouseY]!=2;
-    else if (mouseDirection==Mouse.DIRECTION_RIGHT)//right
-      return 1!=maze[mouseX][mouseY+1]&&maze[mouseX][mouseY+1]!=2;
-    else if (mouseDirection==Mouse.DIRECTION_DOWN)//down
-      return 1!=maze[mouseX-1][mouseY]&&maze[mouseX-1][mouseY]!=2;
+  public boolean rightOpen (Mouse m) {
+    if (m.getDirection()==Mouse.DIRECTION_UP)//up
+      return 1!=maze[m.getX()+1][m.getY()]&&maze[m.getX()+1][m.getY()]!=2;
+    else if (m.getDirection()==Mouse.DIRECTION_RIGHT)//right
+      return 1!=maze[m.getX()][m.getY()+1]&&maze[m.getX()][m.getY()+1]!=2;
+    else if (m.getDirection()==Mouse.DIRECTION_DOWN)//down
+      return 1!=maze[m.getX()-1][m.getY()]&&maze[m.getX()-1][m.getY()]!=2;
     else//left
-      return 1!=maze[mouseX][mouseY-1]&&maze[mouseX][mouseY-1]!=2;
+      return 1!=maze[m.getX()][m.getY()-1]&&maze[m.getX()][m.getY()-1]!=2;
   }
   
   public void addMouse (Mouse newMouse) {
     mouseList.add(newMouse);
   }
   
-  public boolean isFinished (int mouseX, int mouseY) {
-    return maze[mouseX][mouseY]==3;
+  public boolean isFinished (Mouse m) {
+    return maze[m.getX()][m.getY()]==3;
   }
   
   public void resetMouse (Mouse m) {

@@ -10,12 +10,12 @@ public class AlwaysRightMouse extends Mouse {
   
   @Override
   public void logic ()  {
-    while (!getSim().isFinished(getX(), getY())) {
-      if (getSim().rightOpen(getX(), getY(), getDirection())) {
+    while (!getSim().isFinished(this)) {
+      if (getSim().rightOpen(this)) {
         turnRight();
         goForward();
       } 
-      else if (!getSim().forwardOpen(getX(), getY(), getDirection()))
+      else if (!getSim().forwardOpen(this))
         turnLeft();
       else
         goForward();
@@ -25,6 +25,6 @@ public class AlwaysRightMouse extends Mouse {
   @Override
   public int getLogicType ()
   {
-    return Mouse.ALWAYS_RIGHT_LOGIC;
+    return ALWAYS_RIGHT_LOGIC;
   }
 }

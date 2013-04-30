@@ -60,13 +60,7 @@ public abstract class Mouse {
       yCoord++;
     else //left
       xCoord--;
-    try{
       sim.move(xCoord,yCoord);
-    }
-    catch (Exception e)
-    {
-      e.printStackTrace();
-    }
   }
   
   public void turnRight () {
@@ -87,13 +81,10 @@ public abstract class Mouse {
     return String.format ("X-coord: %d\nY-coord: %d\nDirection: %d",xCoord,yCoord,direction);
   }
   
-  
   public String getLogicName ()
   {
     return this.getClass().getName();
   }
   
   public abstract int getLogicType();
-  
-  
 }

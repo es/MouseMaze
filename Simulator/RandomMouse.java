@@ -11,8 +11,8 @@ public class RandomMouse extends Mouse {
   @Override
   public void logic () {
     double r;
-    while (!getSim().isFinished(getX(),getY())) {
-      if (getSim().rightOpen(getX(), getY(), getDirection())&&getSim().forwardOpen(getX(), getY(), getDirection())&&getSim().leftOpen(getX(), getY(), getDirection())) {
+    while (!getSim().isFinished(this)) {
+      if (getSim().rightOpen(this)&&getSim().forwardOpen(this)&&getSim().leftOpen(this)) {
         r=Math.random();
         if (r<0.3)
           turnLeft();
@@ -22,19 +22,19 @@ public class RandomMouse extends Mouse {
         }
         goForward();
       } 
-      else if (getSim().forwardOpen(getX(), getY(), getDirection())&&getSim().leftOpen(getX(), getY(), getDirection())) {
+      else if (getSim().forwardOpen(this)&&getSim().leftOpen(this)) {
         r=Math.random();
         if (r<0.5)
           turnLeft();
         goForward();
       }
-      else if (getSim().rightOpen(getX(), getY(), getDirection())&&getSim().forwardOpen(getX(), getY(), getDirection())) {
+      else if (getSim().rightOpen(this)&&getSim().forwardOpen(this)) {
         r=Math.random();
         if (r<0.5)
           turnRight();
         goForward();
       }
-      else if (getSim().rightOpen(getX(), getY(), getDirection())&&getSim().leftOpen(getX(), getY(), getDirection())) {
+      else if (getSim().rightOpen(this)&&getSim().leftOpen(this)) {
         r=Math.random();
         if (r<0.5)
           turnRight();
@@ -42,15 +42,15 @@ public class RandomMouse extends Mouse {
           turnLeft();
         goForward();
       }
-      else if (getSim().leftOpen(getX(), getY(), getDirection())) {
+      else if (getSim().leftOpen(this)) {
         turnLeft();
         goForward();
       }
-      else if (getSim().rightOpen(getX(), getY(), getDirection())) {
+      else if (getSim().rightOpen(this)) {
         turnRight();
         goForward();
       }
-      else if (getSim().forwardOpen(getX(), getY(), getDirection())) {
+      else if (getSim().forwardOpen(this)) {
         goForward();
       }
       else { //Dead End
@@ -58,13 +58,12 @@ public class RandomMouse extends Mouse {
         turnRight();
         goForward();
       }
-      //printMaze();
     }
   }
   
   @Override
   public int getLogicType ()
   {
-    return Mouse.RANDOM_LOGIC;
+    return RANDOM_LOGIC;
   }
 }
