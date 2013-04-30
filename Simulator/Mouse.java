@@ -1,4 +1,3 @@
-
 public abstract class Mouse {
   private int xCoord;
   private int yCoord;
@@ -11,6 +10,7 @@ public abstract class Mouse {
     this.direction=direction;
     this.sim=sim;
   }
+ 
   
   public int getX()
   {
@@ -69,4 +69,12 @@ public abstract class Mouse {
   public String toString (){
     return String.format ("X-coord: %d\nY-coord: %d\nDirection: %d",xCoord,yCoord,direction);
   }
+  
+
+ public String getLogicType ()
+ {
+   return this.getClass().getName();
+ }
+ 
+
 }

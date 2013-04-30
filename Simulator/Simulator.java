@@ -1,16 +1,11 @@
 import java.util.*;
 import java.io.*;
 
-
 //WIP
-
 public class Simulator {
  private int maze[][]=new int [10][10];//0=open, 1=closed, 2=start, 3=finished
  private int stepCounter;
- //private List<Mouse> mouseList=new ArrayList<Mouse> ();
-
- private AlwaysRightMouse rightMouse;
- private RandomMouse randomMouse;
+private List<Mouse> mouseList=new ArrayList<Mouse> ();
  
  public void move (int x, int y) throws Exception {
   if (maze[x][y]!=1)
@@ -34,7 +29,7 @@ public class Simulator {
   }
   int startCoordinates []=new int [2];
   higherLoop: for (int y=0;y<10;y++) {
-   for (int x=0;x<10;x++) {
+   for (int x=0;x<10;x++){
     if (maze[x][y]==2) {
      startCoordinates[0]=x;
      startCoordinates[1]=y;
@@ -125,7 +120,7 @@ public class Simulator {
  }*/
 
 
- /*public void simulate () {
+ public void simulate () throws Exception {
   double totalStepsCountRandom=0, averageStepsCount=0,totalStepsCountRight=0;
   final int NUM_TEST_MAZES=5;
   System.out.println ("\nBegining testing with always right logic");
@@ -133,36 +128,15 @@ public class Simulator {
    System.out.println ("\nLoading Maze "+x);
    resetMouse();
    loadMaze(new File("Mazes/maze"+x));
-   alwaysRightLogic ();
+   //alwaysRightLogic ();
+   doLogic (0);
    totalStepsCountRight+=stepCounter;
    System.out.println ("Steps Taken Counter using always right logic is: "+stepCounter);
 
    resetMouse();
    loadMaze(new File("Mazes/maze"+x));
-   randomLogic ();
-   totalStepsCountRandom+=stepCounter;
-   System.out.println ("Steps Taken Counter using random logic is: "+stepCounter); 
-  }
-  System.out.println ("Average amount of steps to solve a maze with always right reasoning was: "+(totalStepsCountRight+0.0)/NUM_TEST_MAZES);
-  System.out.println ("Average amount of steps to solve a maze with random reasoning was: "+(totalStepsCountRandom+0.0)/NUM_TEST_MAZES);
- 
- }*/
- 
- public void simulate () {
-  double totalStepsCountRandom=0, averageStepsCount=0,totalStepsCountRight=0;
-  final int NUM_TEST_MAZES=5;
-  System.out.println ("\nBegining testing with always right logic");
-  for (int x=0;x<NUM_TEST_MAZES;x++) {
-   System.out.println ("\nLoading Maze "+x);
-   resetMouse();
-   loadMaze(new File("Mazes/maze"+x));
-   alwaysRightLogic ();
-   totalStepsCountRight+=stepCounter;
-   System.out.println ("Steps Taken Counter using always right logic is: "+stepCounter);
-
-   resetMouse();
-   loadMaze(new File("Mazes/maze"+x));
-   randomLogic ();
+  // randomLogic ();
+   doLogic (1);
    totalStepsCountRandom+=stepCounter;
    System.out.println ("Steps Taken Counter using random logic is: "+stepCounter); 
   }
@@ -170,16 +144,21 @@ public class Simulator {
   System.out.println ("Average amount of steps to solve a maze with random reasoning was: "+(totalStepsCountRandom+0.0)/NUM_TEST_MAZES);
  
  }
+ 
 
  public void addMouse (Mouse newMouse) {
   mouseList.add(newMouse);
  }
+ 
+ public void doLogic (int place){
+   mouseList.get(place).logic();
+ }
 
  public static void main (String[] args) throws Exception{
   Simulator sim=new Simulator ();
-  sim.addMouse(new RandomMouse());
-  sim.addMouse(new AlwaysRightMouse());
+  sim.addMouse(new RandomMouse(4,9,0,sim));
+  sim.addMouse(new AlwaysRightMouse(4,9,0,sim));
   sim.simulate();
-  sim.printResults();
+  //sim.printResults();
  }
 }
