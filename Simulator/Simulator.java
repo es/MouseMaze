@@ -9,7 +9,7 @@ public class Simulator {
   private int startY;
   private int startDirection;
   
-  private int [] stepCounters = {0,0,0};
+  private HashMap <String, Integer> stepCounters = new HashMap <String, Integer>();
   
   public void move (int x, int y){
     if (maze[x][y]!=1)
@@ -103,6 +103,9 @@ public class Simulator {
   
   public void addMouse (Mouse newMouse) {
     mouseList.add(newMouse);
+    if (!stepCounters.containsKey (newMouse.getLogicName())){
+      stepCounters.put (newMouse.getLogicName(), 0);
+    }
   }
   
   public boolean isFinished (Mouse m) {
@@ -115,7 +118,9 @@ public class Simulator {
   }
   
   public void incrementCounter (Mouse m, int amount){
-    stepCounters [m.getLogicType()] += amount;
+    int total = stepCounters.get(m.getLogicName());
+    total+= amount;
+    stepCounters.put (m.getLogicName(), total);
   }
   
   public void simulate () throws Exception {
@@ -135,9 +140,9 @@ public class Simulator {
     
     System.out.println ();
     
-    for (int x =0; x <stepCounters.length;x++){
-      System.out.println ("Average amount of steps to solve a maze with " + (x == Mouse.ALWAYS_RIGHT_LOGIC ? "always right logic ": "random logic " )
-                            +(stepCounters[x]+0.0)/NUM_TEST_MAZES);
+    for (Map.Entry <String, Integer> e: stepCounters.entrySet()){
+      System.out.println ("Average amount of steps to solve a maze with " + e.getKey() + " was "
+                            +(e.getValue()+0.0)/NUM_TEST_MAZES);
     }    
   }
   
@@ -147,7 +152,5 @@ public class Simulator {
     sim.addMouse(new AlwaysRightMouse(sim));
     sim.addMouse(new LearningRandomMouse(sim));
     sim.simulate();
-    
-    
   }
 }

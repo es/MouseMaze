@@ -11,6 +11,7 @@ public abstract class Mouse {
   
   public static final int ALWAYS_RIGHT_LOGIC = 0;
   public static final int RANDOM_LOGIC = 1;
+  public static final int LEARNING_RANDOM_LOGIC = 2;
   
   public Mouse (Simulator sim)
   {
