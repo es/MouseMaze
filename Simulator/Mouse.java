@@ -9,10 +9,6 @@ public abstract class Mouse {
   public static final int DIRECTION_DOWN = 2;
   public static final int DIRECTION_LEFT = 3;
   
-  public static final int ALWAYS_RIGHT_LOGIC = 0;
-  public static final int RANDOM_LOGIC = 1;
-  public static final int LEARNING_RANDOM_LOGIC = 2;
-  
   public Mouse (Simulator sim)
   {
     reset (0,0,0);
@@ -86,6 +82,4 @@ public abstract class Mouse {
   {
     return this.getClass().getName();
   }
-  
-  public abstract int getLogicType();
 }

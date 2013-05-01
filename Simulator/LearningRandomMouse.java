@@ -10,12 +10,5 @@ public class LearningRandomMouse extends Mouse {
   
   @Override
   public void logic () {
-    
-  }
-  
-  @Override
-  public int getLogicType ()
-  {
-    return LEARNING_RANDOM_LOGIC;
   }
 }

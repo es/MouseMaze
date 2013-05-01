@@ -21,10 +21,4 @@ public class AlwaysRightMouse extends Mouse {
         goForward();
     }
   }
-  
-  @Override
-  public int getLogicType ()
-  {
-    return ALWAYS_RIGHT_LOGIC;
-  }
 }

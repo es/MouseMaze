@@ -60,10 +60,4 @@ public class RandomMouse extends Mouse {
       }
     }
   }
-  
-  @Override
-  public int getLogicType ()
-  {
-    return RANDOM_LOGIC;
-  }
 }
