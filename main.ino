@@ -179,7 +179,7 @@ void turnRight () {
   delay (smallDelayValue); //Give time to start turning
   while (true) { //Now we assume WWBWW (LDR Values)
     updateLDRValues();
-    if (ldr[4]&&ldr[3]&&ldr[2]&&ldr[1]) { //If all four evaluate to true, then it means WBBBB
+    if (ldr[4]&&(ldr[3]+ldr[2]+ldr[1])>=2) { //If all four evaluate to true, then it means WBBBB
       halt();
       break;
     }
@@ -205,12 +205,17 @@ void goneTooFar () {
   backward();
   while (true) {
     updateLDRValues ();
-    if (ldr[1]&&ldr[2]&&ldr[3]) {
+    if ((ldr[1]+ldr[2]+ldr[3])>=2) {
       halt();
       break;
     }
   }
-  reverseDirection();//turn Around
+  forward();
+  delay(smallDelayValue);
+  halt();
+  left();
+  while (!(ldr[1]+ldr[2]+ldr[3])>=2) {};
+  halt();
 }
 
 //Assuming WBBBW
@@ -293,11 +298,6 @@ void loop () {
         forward();
         delay(smallDelayValue);
       }
-      else if (ldr[0]) {
-        turnLeft();
-        forward();
-        delay (smallDelayValue);
-      }
       else if (ldr[2]&&ldr[3]) {
         adjustLeft();
       }
@@ -306,6 +306,7 @@ void loop () {
       }
       else if (!ldr[0]&&!ldr[1]&&!ldr[2]&&!ldr[4]&&!ldr[3]) {
         goneTooFar();
+        forward();
         delay(smallDelayValue);
       }
       else {
