@@ -9,7 +9,7 @@ public class Simulator {
   private int startY;
   private int startDirection;
   
-  private int [] stepCounters = {0,0};
+  private int [] stepCounters = {0,0,0};
   
   public void move (int x, int y){
     if (maze[x][y]!=1)
@@ -145,6 +145,7 @@ public class Simulator {
     Simulator sim=new Simulator ();
     sim.addMouse(new RandomMouse(sim));
     sim.addMouse(new AlwaysRightMouse(sim));
+    sim.addMouse(new LearningRandomMouse(sim));
     sim.simulate();
     
     
