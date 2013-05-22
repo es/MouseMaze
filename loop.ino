@@ -200,12 +200,12 @@ void forward(){
   }
   else {
     if (ldr[1]) {
-      analogWrite(motorAF, currentSpeed-80);
-      analogWrite(motorBF, currentSpeed-10);    
+      analogWrite(motorAF, currentSpeed-80);//-80 to adjust turn
+      analogWrite(motorBF, currentSpeed-10);//-10 is to compensate for difference in speed of motor    
     }
     else {
       analogWrite(motorAF, currentSpeed);
-      analogWrite(motorBF, currentSpeed-10-80);
+      analogWrite(motorBF, currentSpeed-10-80);//kept both for readability
     }
   }
 }
