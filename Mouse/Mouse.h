@@ -9,6 +9,7 @@ class Mouse
 		Mouse(int motorLF, int motorLB, int motorRF, int motorRB);
 		void compWheelDiff (int leftWheel, int rightWheel);
 		void setSpeed(int speed);
+		void setAdjust(int adjust);
 		void forward(int option);//0 forward, 1 left, 2 right
 		void reverse();
 		void left();

@@ -2,8 +2,8 @@
 #include "Mouse.h"
 
 Mouse::Mouse(int motorLF, int motorLB, int motorRF, int motorRB){
-    _speed=1023;
-    _adjust=50;
+    setSpeed(-1);
+    setAdjust(-1);
     _motorLF=motorLF;
     _motorLB=motorLB;
     _motorRF=motorRF;
@@ -16,7 +16,17 @@ void Mouse::compWheelDiff (int leftWheel, int rightWheel){
 }
 
 void Mouse::setSpeed(int speed){
-    _speed=speed;
+    if (speed==-1)
+        _speed=1023;
+    else
+        _speed=speed;
+}
+
+void Mouse::setAdjust(int adjust) {
+    if (adjust==-1)
+        _adjust=50;
+    else
+        _adjust=adjust;
 }
 
 void Mouse::halt(){

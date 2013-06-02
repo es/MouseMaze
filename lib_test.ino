@@ -4,8 +4,9 @@ int LDRValue=0;
 int option;
 
 void setup () {
-  mouse.setSpeed(900);
-  mouse.compWheelDiff(0,20);
+  mouse.setSpeed(865);//900,(0,20), 860 (0,10,10)
+  mouse.compWheelDiff(0,13);
+  mouse.setAdjust(13);
   Serial.begin(9600);
   Serial.println("NEW CODE!");
   Serial.println("Turn on white light");
@@ -52,8 +53,10 @@ void testWheels() {
 
   Serial.println ("Forward (Adjust Right) Test");
   countDown(5);
+  mouse.compWheelDiff(0,20);
   mouse.forward(3);
   countDown(5);
+  mouse.compWheelDiff(0,13);
   mouse.halt();
 
   Serial.println ("Backward Test");

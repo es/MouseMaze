@@ -53,8 +53,9 @@ int LDRValue=0;
 int option;
 
 void setup () {
-  mouse.setSpeed(885);
-  mouse.compWheelDiff(0,20);
+  mouse.setSpeed(865);//900,(0,20), 860 (0,10,10)
+  mouse.compWheelDiff(0,13);
+  mouse.setAdjust(13);
   Serial.begin(9600);
   pinMode(13,OUTPUT);
   digitalWrite(13,HIGH);
@@ -102,15 +103,16 @@ void updateLDRValues() {
   LDRValue=0;
   for (int i = 0; i<5; i++){
     if (analogRead(i)<threshold[i]){
-      //Serial.print (i);
-      //Serial.print ("black ");
+      Serial.print (i);
+      Serial.print ("black ");
       ldr[i]=1; //Black
-      LDRValue++;
+      if (i==1||i==2||i==3)
+        LDRValue++;
     }
     else {
       ldr[i]=0; //White
-      //Serial.print (i);
-      //Serial.print ("white ");
+      Serial.print (i);
+      Serial.print ("white ");
     }
   }
   Serial.println();
@@ -131,30 +133,30 @@ void loop () {
   updateLDRValues();
   if (ldr[0]) {
     mouse.halt();
+    delay(750);
+    digitalWrite(13,HIGH);
     //Serial.println("Found right turn");
     mouse.right();
-    delay(500);
+    delay(2000);
     mouse.halt();
     //Serial.println("Found right track");
     delay(500);
   }
   else if (LDRValue==0) {
-    //Serial.println("Ran off track");
+    digitalWrite(13,LOW);
+  //  mouse.reverse();
+//    delay(750);
     mouse.halt();
     delay(750);
-    mouse.reverse();
-    delay(750);
-    mouse.halt();
-    delay(750);
-    //Serial.println("Turning Left");
+    //Serial.println("Found left turn");
     mouse.left();
-    while(!LDRValue>=3){updateLDRValues();}
-    delay(750);
+    delay(2000);
     mouse.halt();
     //Serial.println("Found left track");
-    delay(750);
+    delay(500);
   }
   else {
+    digitalWrite(13,LOW);
     //Serial.println("Going forward");
     if(LDRValue==3||ldr[2]) {
       option=1;//forward  
@@ -165,8 +167,10 @@ void loop () {
       }
       else {
         option=3;//adjsut right
+          mouse.compWheelDiff(0,20);
       }
     }
     mouse.forward(option);
+    mouse.compWheelDiff(0,13);
   }
 }

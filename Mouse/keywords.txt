@@ -1,6 +1,7 @@
 Mouse	KEYWORD1
 compWheelDiff	KEYWORD2
 setSpeed	KEYWORD2
+setAdjust	KEYWORD2
 forward	KEYWORD2
 reverse	KEYWORD2
 left	KEYWORD2

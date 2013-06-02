@@ -53,8 +53,9 @@ int LDRValue=0;
 int option;
 
 void setup () {
-  mouse.setSpeed(900);//900,(0,20)
-  mouse.compWheelDiff(0,20);
+  mouse.setSpeed(860);//900,(0,20), 860 (0,10,10)
+  mouse.compWheelDiff(0,10);
+  mouse.setAdjust(10);
   Serial.begin(9600);
   Serial.println("NEW CODE!");
   Serial.println("Turn on white light");
