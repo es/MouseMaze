@@ -53,9 +53,9 @@ int LDRValue=0;
 int option;
 
 void setup () {
-  mouse.setSpeed(860);//900,(0,20), 860 (0,10,10)
-  mouse.compWheelDiff(0,10);
-  mouse.setAdjust(10);
+  mouse.setSpeed(865);//900,(0,20), 860 (0,10,10)
+  mouse.compWheelDiff(0,13);
+  mouse.setAdjust(13);
   Serial.begin(9600);
   Serial.println("NEW CODE!");
   Serial.println("Turn on white light");
@@ -144,12 +144,15 @@ void loop () {
       if (ldr[3]||ldr[4]) {
         Serial.println("Adjust Left");
         option=2;
+        mouse.compWheelDiff(10,13);
       }
       else {
         Serial.println("Adjust Right");
         option=3;
+        mouse.compWheelDiff(0,20);
       }
     }
     mouse.forward(option);
+    mouse.compWheelDiff(0,13);
   }
 }

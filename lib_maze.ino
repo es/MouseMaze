@@ -137,20 +137,20 @@ void loop () {
     digitalWrite(13,HIGH);
     //Serial.println("Found right turn");
     mouse.right();
-    delay(2000);
+    delay(2250);
     mouse.halt();
     //Serial.println("Found right track");
     delay(500);
   }
   else if (LDRValue==0) {
     digitalWrite(13,LOW);
-  //  mouse.reverse();
-//    delay(750);
+    //mouse.reverse();
+    //delay(750);
     mouse.halt();
     delay(750);
     //Serial.println("Found left turn");
     mouse.left();
-    delay(2000);
+    delay(2250);
     mouse.halt();
     //Serial.println("Found left track");
     delay(500);
@@ -164,10 +164,11 @@ void loop () {
     else {
       if (ldr[3]) {
         option=2;//adjsut left
+        mouse.compWheelDiff(10,13);
       }
       else {
         option=3;//adjsut right
-          mouse.compWheelDiff(0,20);
+        mouse.compWheelDiff(0,20);
       }
     }
     mouse.forward(option);

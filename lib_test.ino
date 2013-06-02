@@ -47,7 +47,9 @@ void testWheels() {
     
   Serial.println ("Forward (Adjust Left) Test");
   countDown(5);
+  mouse.compWheelDiff(10,13);
   mouse.forward(2);
+  mouse.compWheelDiff(0,13);
   countDown(5);
   mouse.halt();
 
@@ -55,8 +57,8 @@ void testWheels() {
   countDown(5);
   mouse.compWheelDiff(0,20);
   mouse.forward(3);
-  countDown(5);
   mouse.compWheelDiff(0,13);
+  countDown(5);
   mouse.halt();
 
   Serial.println ("Backward Test");
