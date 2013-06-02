@@ -78,59 +78,6 @@ void countDown(int a) {
   }
 }
 
-void testWheeles() {
-  halt();
-  Serial.println ("Forward Test");
-  countDown(5);
-  forward();
-  countDown(5);
-  Serial.println("HALT!");
-  halt();
-  delay(3000);
-  
-  halt();
-  Serial.println ("Forward Test");
-  countDown(5);
-  for (int x=0;x<173;x++) {
-    currentSpeed=1023-x;
-    Serial.println(currentSpeed);
-    forward();
-    delay(125);
-  }
-  
-  halt();
-  Serial.println ("Backward Test");
-    countDown(5); 
-  for (int x=0;x<173;x++) {
-    currentSpeed=1023-x;
-    Serial.println(currentSpeed);
-    backward();
-    delay(125);
-  }
-  
-  halt();
-  Serial.println ("Left Test");
-  countDown(5);
-  for (int x=0;x<173;x++) {
-    currentSpeed=1023-x;
-    Serial.println(currentSpeed);
-    left();
-    delay(125);
-  }
-  
-  halt();
-  Serial.println ("Right Test");
-    countDown(5); 
-  for (int x=0;x<173;x++) {
-    currentSpeed=1023-x;
-    Serial.println(currentSpeed);
-    right();
-    delay(125);
-  }
-  
-  halt();
-}
-
 void readWhite(){
   Serial.println("Calibrate White");
   digitalWrite(13,HIGH);
@@ -167,15 +114,19 @@ void setThresholds(){
 
 void updateLDRValues(){
   LDRValue=0;
-  for (int i = 0; i<5; i++){
+  for (int i = 1; i<4; i++){
     if (analogRead(i)<threshold[i]){
+      Serial.print ("black ");
       ldr[i]=0; //Black
       LDRValue++;
     }
     else {
       ldr[i]=1; //White
+      Serial.print ("white ");
     }
   }
+  Serial.println();
+  Serial.println(LDRValue);
 }
 
 void printLDR () {
@@ -186,52 +137,13 @@ void printLDR () {
   Serial.println();
 }
 
-void halt(){
-  analogWrite(motorAF, 0);
-  analogWrite(motorAB, 0);
-  analogWrite(motorBF, 0);
-  analogWrite(motorBB, 0);
-}
-
-void forward(){
-  if(ldr[1]+ldr[2]+ldr[3]==3) {
-    analogWrite(motorAF, currentSpeed);
-    analogWrite(motorBF, currentSpeed);    
-  }
-  else {
-    if (ldr[1]) {
-      analogWrite(motorAF, currentSpeed-80);//-80 to adjust turn
-      analogWrite(motorBF, currentSpeed-10);//-10 is to compensate for difference in speed of motor    
-    }
-    else {
-      analogWrite(motorAF, currentSpeed);
-      analogWrite(motorBF, currentSpeed-10-80);//kept both for readability
-    }
-  }
-}
-
-void backward() {
-  analogWrite(motorAB, currentSpeed);
-  analogWrite(motorBB, currentSpeed);
-}
-
-void right(){
-  analogWrite(motorAF, currentSpeed);
-  analogWrite(motorBB, currentSpeed);
-}
-
-void left(){
-  analogWrite(motorAB, currentSpeed);
-  analogWrite(motorBF, currentSpeed);
-}
-
 void loop () {
   updateLDRValues();
   if (LDRValue==0) {
     halt();
-    delay(500);
+    delay(750);
     backward();
-    while(LDRValue>=2){updateLDRValues();}
+    while(!LDRValue>=2){updateLDRValues();}
     delay(500);
     halt();
   }
