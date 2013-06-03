@@ -54,7 +54,7 @@ int option;
 
 void setup () {
   mouse.setSpeed(865);//900,(0,20), 860 (0,10,10)
-  mouse.compWheelDiff(0,13);
+  mouse.compWheelDiff(0,16);
   mouse.setAdjust(13);
   Serial.begin(9600);
   pinMode(13,OUTPUT);
