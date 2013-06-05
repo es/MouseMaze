@@ -41,8 +41,10 @@ W-Wheel
 +++++++++++
 */
 
+#include <Math.h>
 int white [5]; //Value saved on white button press
 int black [5]; //Value saved on black button press
+int green [5]; //Value saved on green button press
 int threshold [5]; //Average between white and black.
 boolean ldr [5]; //1 if over black, 0 otherwise; ldr[0] is rightest, ldr[4] is leftest
 boolean isFinished = false;
@@ -53,14 +55,15 @@ int LDRValue=0;
 int option;
 
 void setup () {
-  mouse.setSpeed(865);//900,(0,20), 860 (0,10,10)
-  mouse.compWheelDiff(0,16);
-  mouse.setAdjust(13);
+  mouse.setSpeed(890);//900,(0,20), 860 (0,10,10)
+  mouse.compWheelDiff(0,35);
+  //mouse.setAdjust(13);
   Serial.begin(9600);
   pinMode(13,OUTPUT);
   digitalWrite(13,HIGH);
   readWhite();
   readBlack();
+  //readGreen();
   setThresholds();
   Serial.println("SET IT ON THE TRACK MOTHERFUCKER");
   delay(2500);
@@ -69,8 +72,8 @@ void setup () {
 void readWhite(){
   Serial.println("Calibrate White");
   digitalWrite(13,HIGH);
-  for(int x=0;x<15;x++){
-    delay(500);
+  for(int x=0;x<10;x++){
+    delay(250);
     printLDR();
   }
   for (int i = 0; i<5; i++){
@@ -80,17 +83,31 @@ void readWhite(){
   delay(2500);    
 }
 
+void readGreen() {
+  Serial.println("Calibrate Green");
+  digitalWrite(13,HIGH);
+  for(int x=0;x<10;x++) {
+    delay(250);
+    printLDR();
+  }
+  for (int i = 0; i<5; i++){
+    green[i] = analogRead(i);
+  }
+  digitalWrite(13,LOW);
+}
+
 void readBlack() {
   Serial.println("Calibrate Black");
   digitalWrite(13,HIGH);
-  for(int x=0;x<15;x++) {
-    delay(500);
+  for(int x=0;x<10;x++) {
+    delay(250);
     printLDR();
   }
   for (int i = 0; i<5; i++){
     black[i] = analogRead(i);
   }
   digitalWrite(13,LOW);
+  delay(2500);
 }
 
 void setThresholds() {
@@ -128,32 +145,64 @@ void printLDR () {
   Serial.println();
 }
 
+boolean reallyOnWhite() {
+  for (int i=0;i<5;i++) {
+    updateLDRValues();
+    if (LDRValue!=0)
+      return false;
+  }
+  return true;
+}
+
+void dance () {
+ mouse.left();
+ mouse.halt();
+ delay(2000);
+ mouse.right();
+}
+
+boolean onGreen() {
+  for (int i=0;i<5;i++) {
+    if (!abs(green[i]-ldr[i])<5)
+      return false;
+  }
+  return true;
+}
+
 void loop () {
   /*while(true){updateLDRValues();}*/
   updateLDRValues();
+  if (onGreen()) {
+    delay(1000);
+    mouse.halt();
+    while(true){dance();};
+  }
   if (ldr[0]) {
     mouse.halt();
-    delay(750);
-    digitalWrite(13,HIGH);
+    //delay(750);
+    //digitalWrite(13,HIGH);
     //Serial.println("Found right turn");
     mouse.right();
-    delay(2250);
+    delay(2100);
     mouse.halt();
     //Serial.println("Found right track");
     delay(500);
   }
   else if (LDRValue==0) {
-    digitalWrite(13,LOW);
-    //mouse.reverse();
-    //delay(750);
     mouse.halt();
-    delay(750);
-    //Serial.println("Found left turn");
-    mouse.left();
-    delay(2250);
-    mouse.halt();
-    //Serial.println("Found left track");
-    delay(500);
+    if(reallyOnWhite()) {
+        //digitalWrite(13,LOW);
+        //mouse.reverse();
+        //delay(750);
+        mouse.halt();
+        //delay(2000);
+        //Serial.println("Found left turn");
+        mouse.left();
+        delay(2200);
+        mouse.halt();
+        //Serial.println("Found left track");
+        delay(500);
+    }
   }
   else {
     digitalWrite(13,LOW);
@@ -164,14 +213,15 @@ void loop () {
     else {
       if (ldr[3]) {
         option=2;//adjsut left
-        mouse.compWheelDiff(10,13);
+        //mouse.compWheelDiff(10,13);
       }
       else {
         option=3;//adjsut right
-        mouse.compWheelDiff(0,20);
+        //mouse.compWheelDiff(0,20);
       }
     }
     mouse.forward(option);
-    mouse.compWheelDiff(0,13);
+    //delay(500);
+    //mouse.compWheelDiff(0,13);
   }
 }
