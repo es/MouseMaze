@@ -6,19 +6,17 @@ Maze Traversing Mouse written for Arduino
 
 #Mouse Maze
 
-##Contents
-1. lib_loop.ino
-2. lib_maze.ino
-3. arduino-mouse
+This code runs the mouse built for a Grade 12 Engineering final project. It's built using an Ardiuno, Servos, and LDRs.
 
 ##Code
+1. [lib_loop.ino] (https://github.com/EmilS/MouseMaze/blob/master/lib_loop3LDR.ino) - Simply follows a track
+2. [lib_maze.ino] (https://github.com/EmilS/MouseMaze/blob/master/lib_maze.ino) - Solves a maze using [right hand rule] (http://en.wikipedia.org/wiki/Maze_solving_algorithm#Wall_follower)
+3. [arduino-mouse] (https://github.com/EmilS/arduino-mouse) - Library written to abstract H-Bridge + motor
 
-###Loop Code
-
-
-###Maze Code
-
-###Mouse Library
+##Collaborators
+- [Andrei Ciubotariu] (https://github.com/andreiciubotariu)
+- [Matthew Levy] (https://github.com/LevyMatthew)
+- [Emil Stolarsky] (https://github.com/EmilS)
 
 <!-- A Second Level Header
 ---------------------
